@@ -1,0 +1,75 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css'; 
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html class="light" lang="es">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/misu1.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#F48FB1", "secondary": "#90CAF9", "accent": "#F8BBD0", "background-light": "#FFF5F8", "surface": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Playfair Display", "serif"],
+                        "body": ["Lato", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px" },
+                    boxShadow: {
+                        "soft": "0 10px 40px -10px rgba(244, 143, 177, 0.2)",
+                        "inner-soft": "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)",
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Asegura que el body ocupe el 100% de la altura de la ventana */
+        body {
+            min-height: 100vh; 
+            min-height: 100dvh; 
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-background-light text-slate-800 font-body overflow-x-hidden antialiased selection:bg-primary selection:text-white">
+    <main class="
+        relative 
+        flex 
+        h-full 
+        min-h-screen 
+        w-full 
+        flex-col 
+        mx-auto 
+        bg-[#FFFBFD] 
+        shadow-2xl
+    ">
+        <slot />
+    </main>
+</body>
+</html>

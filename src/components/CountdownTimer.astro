@@ -1,0 +1,90 @@
+---
+// src/components/CountdownTime.astro
+---
+
+<div class="px-6 py-4">
+    <div id="countdown-container" class="flex gap-2 justify-center items-center">
+        
+        <div class="flex flex-col items-center gap-1">
+            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-white shadow-soft border border-pink-100">
+                <span id="days" class="text-xl font-bold font-body text-primary">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Días</span>
+        </div>
+        
+        <div class="h-14 flex items-center pb-4 text-primary/30 font-bold text-xl">:</div>
+        
+        <div class="flex flex-col items-center gap-1">
+            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-white shadow-soft border border-pink-100">
+                <span id="hours" class="text-xl font-bold font-body text-secondary">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Horas</span>
+        </div>
+        
+        <div class="h-14 flex items-center pb-4 text-secondary/30 font-bold text-xl">:</div>
+        
+        <div class="flex flex-col items-center gap-1">
+            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-white shadow-soft border border-pink-100">
+                <span id="minutes" class="text-xl font-bold font-body text-primary">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Mins</span>
+        </div>
+
+        <div class="h-14 flex items-center pb-4 text-primary/30 font-bold text-xl">:</div>
+        
+        <div class="flex flex-col items-center gap-1">
+            <div class="w-14 h-14 flex items-center justify-center rounded-2xl bg-white shadow-soft border border-pink-100">
+                <span id="seconds" class="text-xl font-bold font-body text-secondary">00</span>
+            </div>
+            <span class="text-[9px] uppercase tracking-widest text-slate-400 font-bold">Segs</span>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    // 1. Definir la fecha objetivo
+    // Fecha: 24 de Diciembre de 2025
+    // Hora: 21:00:00 (9:00 PM)
+    // El mes en JavaScript es base 0 (Enero=0, Diciembre=11).
+    const targetDate = new Date(2025, 11, 24, 21, 0, 0).getTime();
+
+    // 2. Obtener los elementos DOM
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
+    const container = document.getElementById('countdown-container');
+
+    // Función para añadir cero inicial (ej. 5 -> 05)
+    const pad = (n) => n < 10 ? '0' + n : n;
+
+    // 3. Función principal de actualización del contador
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now; // Distancia en milisegundos
+
+        // Si el tiempo terminó (distancia <= 0)
+        if (distance < 0) {
+            clearInterval(countdownInterval); // Detiene la cuenta
+            if (container) container.innerHTML = '<span class="text-lg font-display text-primary font-bold">¡El concurso ha terminado!</span>';
+            return;
+        }
+
+        // Cálculos de tiempo
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Actualizar el DOM
+        if (daysElement) daysElement.textContent = pad(days);
+        if (hoursElement) hoursElement.textContent = pad(hours);
+        if (minutesElement) minutesElement.textContent = pad(minutes);
+        if (secondsElement) secondsElement.textContent = pad(seconds);
+    }
+
+    // 4. Iniciar la cuenta regresiva
+    updateCountdown(); // Ejecuta inmediatamente para evitar el parpadeo de "00"
+    const countdownInterval = setInterval(updateCountdown, 1000); // Actualiza cada segundo
+</script>

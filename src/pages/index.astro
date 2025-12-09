@@ -1,0 +1,32 @@
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import ImageCard from '../components/ImageCard.astro';
+import CountdownTimer from '../components/CountdownTimer.astro';
+import EntryForm from '../components/EntryForm.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Perfume Sales Promotion - LUX PARFUM">
+    <Header />
+    
+    <main class="flex-1 flex flex-col">
+        <ImageCard />
+
+        <div class="px-6 py-4 text-center">
+            <h2 class="text-3xl font-display font-bold leading-tight mb-3 text-slate-800">
+                <span class="text-primary">Gana 2 Gratis</span> <span class="bg-gradient-to-r from-secondary to-blue-400 bg-clip-text text-transparent"></span>
+            </h2>
+            <p class="text-slate-500 text-sm leading-relaxed max-w-xs mx-auto font-light">
+                Participa por estas increíbles muestras gratuitas de perfume. ¡No te lo pierdas!
+            </p>
+        </div>
+
+        <CountdownTimer />
+
+        <EntryForm />
+        
+        <Footer />
+    </main>
+</Layout>

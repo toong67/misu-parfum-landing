@@ -1,0 +1,150 @@
+---
+// src/components/EntryForm.astro
+
+// URL DE ENVÍO DIRECTO A GOOGLE FORMS (Para envío en segundo plano)
+const FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSeWWM_nDoQjPA3pRJ4hCnmseJLDQZj-SocQG4ioiTGAxI5fHA/formResponse"; 
+---
+
+<div class="px-6 pb-8 mt-2">
+    
+    <div 
+        id="success-message" 
+        class="hidden text-center p-6 rounded-xl bg-green-100 border-2 border-green-300 text-green-800 font-bold transition-all duration-300 shadow-lg"
+        role="alert"
+    >
+        <span class="material-symbols-outlined text-4xl mb-2 text-green-500">check_circle</span>
+        <h2 class="text-xl">¡Datos enviados!</h2>
+        <p class="text-lg">Gracias por participar.</p>
+    </div>
+    <form id="perfume-form" class="flex flex-col gap-4">
+        
+        <div class="group">
+            <label class="sr-only" for="name">Full Name</label>
+            <div class="relative flex items-center">
+                <span class="material-symbols-outlined absolute left-4 text-primary/60">person</span>
+                <input 
+                    class="w-full bg-white border border-pink-100 rounded-xl py-4 pl-12 pr-4 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-slate-300 text-slate-700 shadow-sm" 
+                    id="name" 
+                    name="entry.919617702" 
+                    placeholder="Nombre y Apellido" 
+                    type="text" 
+                    required 
+                />
+            </div>
+        </div>
+
+        <div class="group">
+            <label class="sr-only" for="phone">Phone Number</label>
+            <div class="relative flex items-center">
+                <span class="material-symbols-outlined absolute left-4 text-secondary/60">smartphone</span>
+                <input 
+                    class="w-full bg-white border border-pink-100 rounded-xl py-4 pl-12 pr-4 text-sm outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 transition-all placeholder:text-slate-300 text-slate-700 shadow-sm" 
+                    id="phone" 
+                    name="entry.1978898074" 
+                    placeholder="Numero de teléfono" 
+                    type="tel" 
+                    required 
+                />
+            </div>
+        </div>
+
+        <div class="group">
+            <label class="sr-only" for="email">Email Address</label>
+            <div class="relative flex items-center">
+                <span class="material-symbols-outlined absolute left-4 text-primary/60">mail</span>
+                <input 
+                    class="w-full bg-white border border-pink-100 rounded-xl py-4 pl-12 pr-4 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-slate-300 text-slate-700 shadow-sm" 
+                    id="email" 
+                    name="entry.1673538881" 
+                    placeholder="Correo Electrónico" 
+                    type="email" 
+                    required 
+                />
+            </div>
+        </div>
+        
+        <button 
+            id="submit-button" 
+            class="
+                mt-4 
+                w-full 
+                /* ESTILO BASE: Rosa Pastel */
+                bg-pink-300 
+                /* ESTILO HOVER: Rosa Oscuro */
+                hover:bg-pink-500 
+                text-white 
+                font-bold 
+                text-base 
+                py-4 
+                px-6 
+                rounded-xl 
+                shadow-lg 
+                shadow-pink-200 
+                transition-all 
+                active:scale-[0.98] 
+                flex 
+                items-center 
+                justify-center 
+                gap-2 
+                group" 
+            type="submit"
+        >
+            <span class="tracking-wide">Participa y Gana</span>
+            <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </button>
+
+    </form>
+
+  
+</div>
+
+<script>
+    const FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSeWWM_nDoQjPA3pRJ4hCnmseJLDQZj-SocQG4ioiTGAxI5fHA/formResponse";
+    
+    const form = document.getElementById('perfume-form');
+    const submitButton = document.getElementById('submit-button');
+    const successMessage = document.getElementById('success-message');
+    
+    const restoreButton = () => {
+        submitButton.disabled = false;
+        // Restauramos los estilos originales del botón
+        submitButton.innerHTML = `<span class="tracking-wide">Claim My Samples</span>
+                                  <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>`;
+    };
+
+    const showSuccess = () => {
+        // Oculta el formulario y muestra el mensaje
+        if(form) form.classList.add('hidden');
+        if(successMessage) successMessage.classList.remove('hidden');
+    }
+
+    if (form) {
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<span class="tracking-wide">Enviando...</span>`;
+
+            const data = new FormData(form);
+            
+            try {
+                // Envía los datos a Google Forms en segundo plano (no-cors)
+                await fetch(FORM_ACTION_URL, {
+                    method: 'POST',
+                    body: data,
+                    mode: 'no-cors' 
+                });
+
+                showSuccess();
+
+            } catch (error) {
+                // Asumimos el éxito y mostramos la notificación
+                console.error('Error (posiblemente de CORS) al enviar:', error);
+                showSuccess();
+
+            } finally {
+                restoreButton();
+            }
+        });
+    }
+</script>
