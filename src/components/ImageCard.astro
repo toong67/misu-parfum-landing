@@ -2,17 +2,38 @@
 import { Image } from "astro:assets";
 import parfumImage1 from '../assets/31.png';
 import parfumImage2 from '../assets/37.png';
+
+// Define dimensiones óptimas para la imagen generada por Astro
+// Esto es crucial para la nitidez. Ajusta estos valores al tamaño real que ocupará el contenedor.
+const IMAGE_WIDTH = 400; 
+const IMAGE_HEIGHT = 500;
 ---
 
 <div class="px-6 pt-6 pb-2">
     <div class="grid grid-cols-2 gap-4 h-64">
         <div class="relative rounded-2xl overflow-hidden shadow-soft group">
-            <div class="absolute inset-0 bg-gradient-to-br from-amber-50 to-orange-50 opacity-50"></div>
-            <Image alt="parfum 1 gold" class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700" src={parfumImage1} width={200} height={200}/>
+            <div class="absolute inset-0 "></div>
+            <Image 
+                alt="parfum 1 gold" 
+                class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700" 
+                src={parfumImage1} 
+                width={IMAGE_WIDTH} 
+                height={IMAGE_HEIGHT}
+               
+                fit="cover"
+            />
         </div>
         <div class="relative rounded-2xl overflow-hidden shadow-soft group">
-            <div class="absolute inset-0 bg-gradient-to-br from-blue-50 to-sky-50 opacity-50"></div>
-            <Image alt="parfum 2 blue" class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700" src={parfumImage2} width={100} height={100}/>
+            <div class="absolute inset-0 "></div>
+            <Image 
+                alt="parfum 2 blue" 
+                class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-700" 
+                src={parfumImage2} 
+                width={IMAGE_WIDTH} 
+                height={IMAGE_HEIGHT}
+              
+                fit="cover"
+            />
             <div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-primary text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm border border-primary/20 tracking-wide uppercase">
                 Limited
             </div>
